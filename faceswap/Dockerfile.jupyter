@@ -1,0 +1,15 @@
+FROM lapidarioz/python3-opencv4-dlib-cuda:latest
+
+ENV JUPYTER_PORT=8888
+
+VOLUME /data
+
+EXPOSE ${JUPYTER_PORT}
+
+WORKDIR /tmp
+COPY requirements.txt.jupyter .
+RUN pip install --no-cache-dir -r requirements.txt.jupyter
+
+WORKDIR /data
+
+CMD exec jupyter notebook --port=${JUPYTER_PORT} --ip=0.0.0.0 --no-browser --allow-root
