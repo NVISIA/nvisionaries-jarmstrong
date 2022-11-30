@@ -159,3 +159,109 @@
   a {
     text-decoration: none;
   }
+
+  button:disabled {
+    background: var(---d4d8dd) 0% 0% no-repeat padding-box;
+    background: #D4D8DD 0% 0% no-repeat padding-box;
+    border-radius: 3px;
+    opacity: 1;
+  }
+
+  button.primary {
+    background: transparent linear-gradient(104deg, var(---e46528) 0%, var(---e46528) 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(104deg, #E46528 0%, #E46528 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #001924;
+    border: 2px solid #E46528;
+    padding: 5px 15px;
+    border-radius: 3px;
+    opacity: 1;
+
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-18) var(--unnamed-font-family-mic-32-new-rounded);
+    letter-spacing: var(--unnamed-character-spacing-0-36);
+    color: var(---ffffff);
+    text-align: center;
+    font: normal normal bold 18px Mic 32 New Rounded;
+    letter-spacing: 0.36px;
+    color: #FFFFFF;
+    text-transform: capitalize;
+    opacity: 1;
+  }
+
+  button.primary:hover {
+    background: transparent linear-gradient(104deg, var(---e46528) 0%, var(---e46528) 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(104deg, #E46528 0%, #E46528 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #001924;
+    border-radius: 3px;
+    opacity: 1;
+  }
+
+  button.primary:active {
+    background: transparent linear-gradient(104deg, var(---e46528) 0%, var(---e46528) 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(104deg, #E46528 0%, #E46528 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #001924;
+    border: 2px solid #AD3800;
+    border-radius: 3px;
+    opacity: 1;
+  }
+
+  button.primary:disabled {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-18) var(--unnamed-font-family-mic-32-new-rounded);
+    letter-spacing: var(--unnamed-character-spacing-0-36);
+    color: var(---3d3e3f);
+    text-align: center;
+    font: normal normal bold 18px Mic 32 New Rounded;
+    letter-spacing: 0.36px;
+    color: #3D3E3F;
+    text-transform: capitalize;
+    opacity: 0.5;
+  }
+
+  button.secondary {
+    background: var(---003148) 0% 0% no-repeat padding-box;
+    border: 2px solid var(---89c8ee);
+    background: #003148 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #001924;
+    border: 2px solid #89C8EE;
+    border-radius: 3px;
+    padding: 5px 15px;
+    
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-16) var(--unnamed-font-family-mic-32-new-rounded);
+    letter-spacing: var(--unnamed-character-spacing-0-32);
+    color: var(---ffffff);
+    text-align: center;
+    font: normal normal medium 16px Mic 32 New Rounded;
+    letter-spacing: 0.32px;
+    color: #FFFFFF;
+    text-transform: capitalize;
+    opacity: 1;
+  }
+
+  button.secondary:hover {
+    background: var(---a9cde3) 0% 0% no-repeat padding-box;
+    border: 2px solid var(---a9cde3);
+    background: #A9CDE3 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #001924;
+    border: 2px solid #A9CDE3;
+    border-radius: 3px;
+    opacity: 1;
+  }
+
+  button.secondary:active {
+    background: var(---a9cde3) 0% 0% no-repeat padding-box;
+    background: #A9CDE3 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #001924;
+    border: 2px solid #69A9D0;
+    border-radius: 3px;
+    opacity: 1;
+  }
+
+  button.secondary:disabled {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-16) var(--unnamed-font-family-mic-32-new-rounded);
+    letter-spacing: var(--unnamed-character-spacing-0-32);
+    text-align: center;
+    font: normal normal medium 16px Mic 32 New Rounded;
+    letter-spacing: 0.32px;
+    color: #3D3E3F80;
+    text-transform: capitalize;
+    opacity: 1;
+  }

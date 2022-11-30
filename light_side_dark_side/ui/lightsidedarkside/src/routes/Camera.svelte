@@ -70,22 +70,6 @@
         margin: auto;
         margin-top: 185px;
         padding: 10px 15px;
-
-        background: transparent linear-gradient(102deg, #E46528 0%, #E46528 100%) 0% 0% no-repeat padding-box;
-        box-shadow: 0px 3px 6px #001924;
-        border-radius: 3px;
-        border: 0px;
-        opacity: 1;
-
-        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-18)/var(--unnamed-line-spacing-28) var(--unnamed-font-family-mic-32-new-rounded);
-        letter-spacing: var(--unnamed-character-spacing-0-36);
-        color: var(--unnamed-color-ffffff);
-        text-align: center;
-        font: normal normal bold 18px/28px Mic 32 New Rounded;
-        letter-spacing: 0.36px;
-        color: #FFFFFF;
-        text-transform: capitalize;
-        opacity: 1;
     }
 
     canvas {
@@ -98,7 +82,7 @@
         <!-- empty captions because we're displaying the user's own captured photo without audio-->
         <track kind="captions" />
     </video>
-    <button id="startbutton" on:click={takepicture}>Take photo</button>
+    <button class="primary" id="startbutton" on:click={takepicture}>Take photo</button>
 
     <!-- This canvas is invisible - used to hold the captured frame data -->
     <canvas id="canvas" bind:this={canvas}></canvas>

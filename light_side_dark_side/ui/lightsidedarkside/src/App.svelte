@@ -52,7 +52,6 @@
 <style>
   div {
     width: 1024px;
-    height: 1366px;
     margin: auto;
   }
 
@@ -80,6 +79,7 @@
   div.dark-body {
     height: 100%;
     background-color: var(--background-color);
+    min-height: 1280px;
   }
 
   div.divider {
@@ -92,6 +92,8 @@
   div.route-shim {
     background: transparent linear-gradient(0deg, #001924 0%, #00192400 100%) 0% 0% no-repeat padding-box;
     opacity: 1;
+    height: 100%;
+    min-height: 1280px;
   }
 </style>
 
@@ -113,7 +115,7 @@
       <Route path="/camera"><Camera bind:photoData /></Route>
       <Route path="/preview"><Preview {photoData} {submitPhoto} /></Route>
       <Route path="/waiting"><Waiting /></Route>
-      <Route path="/share"><Modal><Share bind:resultData /></Modal></Route>
+      <Route path="/share"><Modal closeButton={false} unstyled={true}><Share bind:resultData /></Modal></Route>
     </div>
   </Router>
 </div>

@@ -97,23 +97,6 @@
     button {
         margin-top: 92px;
         min-width: 137px;
-
-        background: transparent linear-gradient(104deg, #E46528 0%, #E46528 100%) 0% 0% no-repeat padding-box;
-        box-shadow: 0px 3px 6px #001924;
-        border-radius: 3px;
-        border: none;
-        padding: 10px 15px;
-        opacity: 1;
-
-        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-18)/var(--unnamed-line-spacing-28) var(--unnamed-font-family-mic-32-new-rounded);
-        letter-spacing: var(--unnamed-character-spacing-0-36);
-        color: var(--unnamed-color-ffffff);
-        text-align: center;
-        font: normal normal bold 18px/28px Mic 32 New Rounded;
-        letter-spacing: 0.36px;
-        color: #FFFFFF;
-        text-transform: capitalize;
-        opacity: 1;
     }
 
     button.social {
@@ -149,6 +132,6 @@
         <div class="email-link">
             <button class="social e-mail" on:click={showTagYourselfDialog}><span class="fa-icon"><FontAwesomeIcon icon="envelope" /></span>EMAIL IT TO ME</button>
         </div>
-        <button on:click={done}>Done</button>
+        <button class="primary" on:click={done}>Done</button>
     </div>
 </div>

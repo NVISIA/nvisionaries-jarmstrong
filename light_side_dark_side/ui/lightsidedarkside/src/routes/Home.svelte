@@ -80,20 +80,12 @@
         margin: auto;
         margin-top: 25px;
         display: block;
-        padding-top: 10px;
-        padding-bottom: 10px;
-
-        background: transparent linear-gradient(102deg, #E46528 0%, #E46528 100%) 0% 0% no-repeat padding-box;
-        box-shadow: 0px 3px 6px #001924;
-        border-radius: 3px;
-        border: 0px;
-        opacity: 1;
-
+        
         font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-24) var(--unnamed-font-family-mic-32-new-rounded);
         letter-spacing: var(--unnamed-character-spacing-0-36);
         color: var(--unnamed-color-ffffff);
         text-align: center;
-        font: normal normal bold 18px/28px Mic 32 New Rounded;
+        font: normal normal bold 18px Mic 32 New Rounded;
         letter-spacing: 0.36px;
         color: #FFFFFF;
         text-transform: capitalize;
@@ -143,6 +135,6 @@
     </div>
     <div class="mainbutton">
         <div class="dark-accent">SEE WHICH SIDE YOU’RE ON!</div>
-        <button on:click={nextPage}>Take My Photo!</button>
+        <button class="primary" on:click={nextPage}>Take My Photo!</button>
     </div>
 </div>
