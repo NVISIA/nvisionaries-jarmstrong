@@ -12,8 +12,6 @@
   import Waiting from "./routes/Waiting.svelte";
   import Share from "./routes/Share.svelte";
 
-  import Modal from 'svelte-simple-modal';
-
   library.add(faCamera);
 
   const backendURL = 'https://2lcxfaa5yeav5mn7sdsol4vf740zlhdx.lambda-url.us-east-2.on.aws/';
@@ -22,6 +20,7 @@
 
   let photoData;
   let resultData;
+  let modalIsBeingDisplayed = false;
 
   /**
    * @param {string} dataToStrip
@@ -95,6 +94,14 @@
     height: 100%;
     min-height: 1280px;
   }
+
+  div.scrim {
+    background-color: black;
+    opacity: 0.7;
+    min-height: 1280px;
+    position: absolute;
+    z-index: 1;
+  }
 </style>
 
 <svelte:head>
@@ -102,6 +109,10 @@
 </svelte:head>
 
 <div class="body dark-body">
+  {#if modalIsBeingDisplayed}
+    <div class="scrim"></div>
+  {/if}
+
   <Router {url}>
     <nav>
       <Link to="/"><span class="fa-camera-icon"><FontAwesomeIcon icon="camera" /></span><span class="link dark-h3">Home</span></Link>
@@ -115,7 +126,7 @@
       <Route path="/camera"><Camera bind:photoData /></Route>
       <Route path="/preview"><Preview {photoData} {submitPhoto} /></Route>
       <Route path="/waiting"><Waiting /></Route>
-      <Route path="/share"><Modal closeButton={false} unstyled={true}><Share bind:resultData /></Modal></Route>
+      <Route path="/share"><Share bind:resultData /></Route>
     </div>
   </Router>
 </div>
