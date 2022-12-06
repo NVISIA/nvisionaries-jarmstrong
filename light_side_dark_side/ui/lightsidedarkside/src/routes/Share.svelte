@@ -2,9 +2,9 @@
     import { navigate } from "svelte-routing";
     import { library } from "@fortawesome/fontawesome-svg-core";
     import {
-        faFacebook,
         faLinkedin,
         faTwitter,
+        faFacebook,
     } from "@fortawesome/free-brands-svg-icons";
     import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
     import { FontAwesomeIcon } from "fontawesome-svelte";
@@ -14,8 +14,8 @@
     import EnterEmailDialog from "../lib/components/EnterEmailDialog.svelte";
 
     library.add(faEnvelope);
-    library.add(faFacebook);
     library.add(faLinkedin);
+    library.add(faFacebook);
     library.add(faTwitter);
 
     export let resultData = {
@@ -39,22 +39,22 @@
      * @param {string} filename
      * @param {any} mimeType
      */
-    function makeFile(dataUrl, filename, mimeType) {
-        return fetch(dataUrl)
-            .then((res) => res.arrayBuffer())
-            .then((buf) => new File([buf], filename, { type: mimeType }));
+    async function makeFile(dataUrl, filename, mimeType) {
+        const res = await fetch(dataUrl);
+        const buf = await res.arrayBuffer();
+        return new File([buf], filename, { type: mimeType });
     }
 
-    async function showEmailDialog() {
+    async function showShareDialog() {
         const shareData = {
             text: `I'm on the ${
                 resultData.score > 0.5 ? "dark" : "light"
-            } side of tech!`,
-            file: await makeFile(
+            } side of tech! #nvisia #techshowcase2022`,
+            files: [await makeFile(
                 addURLToData(resultData.image),
                 "result.png",
                 "image/png"
-            ),
+            )],
         };
 
         await navigator.share(shareData);
@@ -72,29 +72,17 @@
     </div>
     <div class="controls">
         <h3 class="dark-h3">Share Your Allegiance</h3>
-        <div class="social-links">
-            <button class="social facebook" on:click={showFacebookDialog}
-                ><span class="fa-icon"
-                    ><FontAwesomeIcon icon={["fab", "facebook"]} /></span
-                >SHARE TO FACEBOOK</button
-            >
-            <button class="social facebook" on:click={showLinkedInDialog}
-                ><span class="fa-icon"
-                    ><FontAwesomeIcon icon={["fab", "linkedin"]} /></span
-                >SHARE TO LINKEDIN</button
-            >
-            <button class="social facebook" on:click={showTwitterDialog}
-                ><span class="fa-icon"
-                    ><FontAwesomeIcon icon={["fab", "twitter"]} /></span
-                >SHARE TO TWITTER</button
-            >
-        </div>
-        <hr />
-        <h3 class="dark-h3">Keep My Cloak On</h3>
+        <span class="fa-icon"><FontAwesomeIcon icon="envelope" /></span><span
+            class="fa-icon"><FontAwesomeIcon icon={["fab", "facebook"]} /></span
+        ><span class="fa-icon"
+            ><FontAwesomeIcon icon={["fab", "twitter"]} /></span
+        ><span class="fa-icon"
+            ><FontAwesomeIcon icon={["fab", "linkedin"]} /></span
+        >
         <div class="email-link">
-            <button class="social e-mail" on:click={showEmailDialog}
-                ><span class="fa-icon"><FontAwesomeIcon icon="envelope" /></span
-                >EMAIL IT TO ME</button
+            <p>Click the SHARE button below to share your result on social media or via email. Don't forget to tag yourself! (This usually takes the form of an @ and your username.)</p>
+            <button class="secondary" on:click={showShareDialog}
+                >SHARE</button
             >
         </div>
         <button class="primary" on:click={done}>Done</button>
@@ -146,32 +134,26 @@
         margin-top: 92px;
     }
 
-    hr {
-        margin: initial;
-        text-align: left;
-        max-width: 300px;
-
-        border: 1px solid #a8cce2;
-        opacity: 1;
-    }
-
     button {
         min-width: 137px;
         display: block;
     }
 
-    button.social {
-        color: #6fc7b4;
-        background: transparent;
-        box-shadow: none;
-        font-weight: normal;
-        border: none;
-        margin-bottom: 40px;
+    button.secondary {
+        margin-bottom: 20px;
     }
 
-    button.social .fa-icon {
+    .fa-icon {
         font-size: 26px;
         margin-right: 20px;
         vertical-align: middle;
+    }
+
+    div.email-link {
+        margin-top: 20px;
+    }
+
+    h3 {
+        margin-bottom: 4px;
     }
 </style>

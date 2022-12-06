@@ -1,10 +1,10 @@
 <script>
-  import { library } from '@fortawesome/fontawesome-svg-core';
-  import { faCamera } from '@fortawesome/free-solid-svg-icons';
-  import { FontAwesomeIcon } from 'fontawesome-svelte';
+  import { library } from "@fortawesome/fontawesome-svg-core";
+  import { faCamera } from "@fortawesome/free-solid-svg-icons";
+  import { FontAwesomeIcon } from "fontawesome-svelte";
 
   import { Router, Link, Route, navigate } from "svelte-routing";
-  
+
   import Home from "./routes/Home.svelte";
   import About from "./routes/About.svelte";
   import Camera from "./routes/Camera.svelte";
@@ -14,7 +14,7 @@
 
   library.add(faCamera);
 
-  const backendURL = 'https://2lcxfaa5yeav5mn7sdsol4vf740zlhdx.lambda-url.us-east-2.on.aws/';
+  const backendURL = "https://faceswap.nvisionaries.dev.nvisia.io";
 
   export let url = "";
 
@@ -23,19 +23,20 @@
   let modalIsBeingDisplayed = false;
 
   /**
-   * @param {string} dataToStrip
+   * @param {string} data
    */
-  function stripURLFromData(dataToStrip) {
-    return dataToStrip.substring(23);
+  function stripUrlFromString(data) {
+    return data.substring(22);
   }
-  
-  async function submitPhoto () {
+
+  async function submitPhoto() {
+    const file = stripUrlFromString(photoData);
     const formData = new FormData();
-    formData.append('photo', stripURLFromData(photoData));
+    formData.append("file", file);
 
     const uploadPromise = fetch(backendURL, {
-      method: 'POST',
-      body: formData
+      method: "POST",
+      body: formData,
     });
 
     navigate("/waiting");
@@ -45,8 +46,38 @@
     resultData = json;
 
     navigate("/share");
-  };
+  }
 </script>
+
+<svelte:head>
+  <link rel="stylesheet" href="https://use.typekit.net/rbq3ono.css" />
+</svelte:head>
+
+<div class="body dark-body">
+  {#if modalIsBeingDisplayed}
+    <div class="scrim" />
+  {/if}
+
+  <Router {url}>
+    <nav>
+      <Link to="/"
+        ><span class="fa-camera-icon"><FontAwesomeIcon icon="camera" /></span
+        ><span class="link dark-h3">Home</span></Link
+      >
+      <Link to="/about"><span class="link dark-h3">About the App</span></Link>
+    </nav>
+    <div class="divider">&nbsp;</div>
+    <div class="route-shim">
+      <Route path="/"><Home /></Route>
+      <Route path="/home"><Home /></Route>
+      <Route path="/about"><About /></Route>
+      <Route path="/camera"><Camera bind:photoData /></Route>
+      <Route path="/preview"><Preview {photoData} {submitPhoto} /></Route>
+      <Route path="/waiting"><Waiting /></Route>
+      <Route path="/share"><Share bind:resultData /></Route>
+    </div>
+  </Router>
+</div>
 
 <style>
   div {
@@ -89,7 +120,8 @@
   }
 
   div.route-shim {
-    background: transparent linear-gradient(0deg, #001924 0%, #00192400 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(0deg, #001924 0%, #00192400 100%) 0%
+      0% no-repeat padding-box;
     opacity: 1;
     height: 100%;
     min-height: 1280px;
@@ -103,30 +135,3 @@
     z-index: 1;
   }
 </style>
-
-<svelte:head>
-  <link rel="stylesheet" href="https://use.typekit.net/rbq3ono.css">
-</svelte:head>
-
-<div class="body dark-body">
-  {#if modalIsBeingDisplayed}
-    <div class="scrim"></div>
-  {/if}
-
-  <Router {url}>
-    <nav>
-      <Link to="/"><span class="fa-camera-icon"><FontAwesomeIcon icon="camera" /></span><span class="link dark-h3">Home</span></Link>
-      <Link to="/about"><span class="link dark-h3">About the App</span></Link>
-    </nav>
-    <div class="divider">&nbsp;</div>
-    <div class="route-shim">
-      <Route path="/"><Home /></Route>
-      <Route path="/home"><Home /></Route>
-      <Route path="/about"><About /></Route>
-      <Route path="/camera"><Camera bind:photoData /></Route>
-      <Route path="/preview"><Preview {photoData} {submitPhoto} /></Route>
-      <Route path="/waiting"><Waiting /></Route>
-      <Route path="/share"><Share bind:resultData /></Route>
-    </div>
-  </Router>
-</div>
