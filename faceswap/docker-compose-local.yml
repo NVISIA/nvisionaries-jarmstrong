@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  jedisith:
+    image: nvisia/nvisionaries-jarmstrong:jedi_sith
+    x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-2:545303416802:secret:jarmstrong-dockerhub-auth-9qly2A"
+    ports:
+      - "8501:8501"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2048M
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  rembg:
+    image: danielgatis/rembg 
+    command: s
+    ports:
+      - "5000:5000"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2048M
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  faceswap:
+    image: nvisia/nvisionaries-jarmstrong:faceswap
+    x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-2:545303416802:secret:jarmstrong-dockerhub-auth-9qly2A"
+    ports:
+      - "5100:5100"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      - jedisith
+      - rembg

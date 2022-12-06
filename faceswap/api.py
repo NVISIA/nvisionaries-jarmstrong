@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from io import BytesIO
 import numpy as np
 import copy
@@ -11,8 +12,9 @@ from app import faceswap
 
 f_app = Flask(__name__)
 f_app.secret_key = "nvisia"
+CORS(f_app)
 
-jedi_sith_url = "http://jedi_sith:8501/v1/models/jedi_sith"
+jedi_sith_url = "http://jedisith:8501/v1/models/jedi_sith"
 rembg_url = "http://rembg:5000"
 eventsink_url = "https://edsf.itwasaday.net/api/boothEvents"
 eventsink_auth_key = "3a1d287e-7e57-464c-b0b5-e6595ece0b6b"
@@ -93,7 +95,7 @@ def get_body_image(score):
 def sink_event(json_data):
     headers = {EVENTSINK_HEADER_NAME: eventsink_auth_key, "content-type": "application/json"}
     data = json.dumps({"messageType": "sithjedi", "message": "photo", "json": json.dumps(json_data)})
-    requests.post(eventsink_url, data=data, headers=headers)
+    requests.post(eventsink_url, data=data, headers=headers, timeout=3)
 
 def resize_image(image, new_width=1080):
     orig_height, orig_width, _ = image.shape
@@ -105,8 +107,21 @@ def resize_image(image, new_width=1080):
 
 @f_app.route("/", methods=["POST"])
 def post():
+    # debug
+    print(request)
+    print(request.files)
+    print(request.data)
+
     # decode file and get score
-    file = request.form.get('file')
+    if 'file' in request.files:
+        file = request.files['file']
+    
+    else:
+        file = request.form.get('file')
+
+    if file is None:
+        file = request.data
+
     face_img = process_file(file)
     score = dispatch_to_jedi_sith(face_img)
 
@@ -128,9 +143,12 @@ def post():
     json_response = {"score": score, "image": result_string}
 
     # sink event to George
-    sink_event(json_response)
+    try:
+        sink_event(json_response)
+    except:
+        pass
 
     return jsonify(json_response)
 
 if __name__ == "__main__":
-    f_app.run(host='0.0.0.0', port=5000)
+    f_app.run(host='0.0.0.0', port=5100)
