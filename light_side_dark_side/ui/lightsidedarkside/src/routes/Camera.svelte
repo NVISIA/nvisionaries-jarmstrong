@@ -2,7 +2,7 @@
     import { navigate } from "svelte-routing";
 
     let width = 700; /* px */
-    let height = 816; /* px */
+    export let height = 816; /* px */
 
     let streaming = false;
 
@@ -12,18 +12,22 @@
     let canvas;
 
     navigator.mediaDevices
-        .getUserMedia({ video: { facingMode: "user" }, audio: false })
-        .then(stream => {
+        .getUserMedia({
+            video: { facingMode: "user", width, height },
+            audio: false,
+        })
+        .then((stream) => {
             video.srcObject = stream;
             video.play();
         })
-        .catch(err => {
+        .catch((err) => {
             console.error(`An error occurred: ${err}`);
         });
 
     function ready() {
         if (!streaming) {
-            height = (video.videoHeight / video.videoWidth) * width;
+            height = video.videoHeight;
+            width = video.videoWidth;
 
             video.setAttribute("width", width);
             video.setAttribute("height", height);
@@ -48,6 +52,10 @@
             photoData = canvas.toDataURL("image/png");
 
             if (photoData) {
+                video.pause();
+                video.srcObject = null;
+                streaming = false;
+
                 nextPage();
             } else {
                 console.error("An error occurred - no photo caputured");
@@ -56,11 +64,23 @@
     }
 </script>
 
+<div class="camera">
+    <video id="video" bind:this={video} on:canplay={ready}>
+        <!-- empty captions because we're displaying the user's own captured photo without audio-->
+        <track kind="captions" />
+    </video>
+    <button class="primary" id="startbutton" on:click={takepicture}
+        >Take photo</button
+    >
+
+    <!-- This canvas is invisible - used to hold the captured frame data -->
+    <canvas id="canvas" bind:this={canvas} />
+</div>
+
 <style>
     video {
         display: block;
         width: 700px;
-        height: 817px;
         margin: auto;
         margin-top: 185px;
     }
@@ -76,14 +96,3 @@
         display: none;
     }
 </style>
-
-<div class="camera">
-    <video id="video" bind:this={video} on:canplay={ready}>
-        <!-- empty captions because we're displaying the user's own captured photo without audio-->
-        <track kind="captions" />
-    </video>
-    <button class="primary" id="startbutton" on:click={takepicture}>Take photo</button>
-
-    <!-- This canvas is invisible - used to hold the captured frame data -->
-    <canvas id="canvas" bind:this={canvas}></canvas>
-</div>

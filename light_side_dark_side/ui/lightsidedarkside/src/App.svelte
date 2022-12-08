@@ -26,6 +26,7 @@
 
   let photoData;
   let resultData;
+  let height;
   let error;
   let modalIsBeingDisplayed = false;
 
@@ -112,8 +113,10 @@
       <Route path="/"><Home /></Route>
       <Route path="/home"><Home /></Route>
       <Route path="/about"><About /></Route>
-      <Route path="/camera"><Camera bind:photoData /></Route>
-      <Route path="/preview"><Preview {photoData} {submitPhoto} /></Route>
+      <Route path="/camera"><Camera bind:photoData bind:height /></Route>
+      <Route path="/preview"
+        ><Preview {photoData} {submitPhoto} {height} /></Route
+      >
       <Route path="/waiting"><Waiting /></Route>
       <Route path="/share"><Share bind:resultData /></Route>
       <Route path="/error"><Error {error} /></Route>
