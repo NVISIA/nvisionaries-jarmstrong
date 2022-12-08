@@ -11,15 +11,22 @@
   import Preview from "./routes/Preview.svelte";
   import Waiting from "./routes/Waiting.svelte";
   import Share from "./routes/Share.svelte";
+  import Error from "./routes/Error.svelte";
 
   library.add(faCamera);
 
   const backendURL = "https://faceswap.nvisionaries.dev.nvisia.io";
+  // const backendURL = "http://faces-LoadB-643OVNWBHHJG-1ec63b91f523bcdb.elb.us-east-2.amazonaws.com";
+  const eventSinkUrl = "https://edsf.itwasaday.net/api/boothEvents";
+  const eventSinkAuthKey = "3a1d287e-7e57-464c-b0b5-e6595ece0b6b";
+
+  const EVENTSINK_HEADER_NAME = "Authorization";
 
   export let url = "";
 
   let photoData;
   let resultData;
+  let error;
   let modalIsBeingDisplayed = false;
 
   /**
@@ -27,6 +34,26 @@
    */
   function stripUrlFromString(data) {
     return data.substring(22);
+  }
+
+  /**
+   * @param {any} resultData
+   */
+  async function postResultsToGeorge(resultData) {
+    const headers = {
+      "Content-type": "application/json",
+      [EVENTSINK_HEADER_NAME]: eventSinkAuthKey,
+    };
+
+    return fetch(eventSinkUrl, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        messageType: "sithjedi",
+        message: "photo",
+        json: JSON.stringify(resultData),
+      }),
+    });
   }
 
   async function submitPhoto() {
@@ -41,11 +68,25 @@
 
     navigate("/waiting");
 
-    const awaitedCall = await uploadPromise;
-    const json = await awaitedCall.json();
-    resultData = json;
+    try {
+      const awaitedCall = await uploadPromise;
 
-    navigate("/share");
+      if (awaitedCall.status !== 200) {
+        error = await awaitedCall.text();
+        navigate("/error");
+      } else {
+        const json = await awaitedCall.json();
+        resultData = json;
+        navigate("/share");
+      }
+    } catch (apiError) {
+      error = apiError;
+      navigate("/error");
+    }
+
+    if (resultData) {
+      await postResultsToGeorge(resultData);
+    }
   }
 </script>
 
@@ -75,6 +116,7 @@
       <Route path="/preview"><Preview {photoData} {submitPhoto} /></Route>
       <Route path="/waiting"><Waiting /></Route>
       <Route path="/share"><Share bind:resultData /></Route>
+      <Route path="/error"><Error {error} /></Route>
     </div>
   </Router>
 </div>

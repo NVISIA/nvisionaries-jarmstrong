@@ -13,18 +13,17 @@
     div.preview-img {
         margin: auto;
         width: 700px;
-        height: 817px;
     }
 
     img {
         display: block;
-        width: 700px;
+        width: 640px;
         margin: auto;
         margin-top: 185px;
     }
 
     div.controls {
-        width: 782px;
+        width: 640px;
         height: 243px;
         margin: auto;
         margin-top: 185px;
